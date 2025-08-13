@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import ChoroplethMap from './components/ChoroplethMap';
 import DataTable from './components/DataTable';
@@ -9,6 +9,7 @@ import foundationData from './data/state_map_data.json';
 
 function App() {
   const [selectedState, setSelectedState] = useState(null);
+  const tableRef = useRef(null);
   
   // Sample data structure - replace with your actual data
   // const mapData = [
@@ -32,6 +33,23 @@ function App() {
 
   const handleStateClick = (stateName) => {
     setSelectedState(stateName);
+    // Scroll to the table when a state is selected
+    console.log('State clicked:', stateName);
+    
+    // Use setTimeout to ensure the state update has completed and the table is rendered
+    setTimeout(() => {
+      console.log('Table ref after timeout:', tableRef.current);
+      if (tableRef.current) {
+        const tableTop = tableRef.current.offsetTop;
+        console.log('Table top position:', tableTop);
+        window.scrollTo({
+          top: tableTop - 100, // Offset by 100px to show some context above
+          behavior: 'smooth'
+        });
+      } else {
+        console.log('Table ref is still null!');
+      }
+    }, 100);
   };
 
   return (
@@ -46,6 +64,7 @@ function App() {
         />
         
         <DataTable 
+          ref={tableRef}
           data={selectedState ? foundationData[selectedState] : null} 
           selectedState={selectedState} 
         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import styled from '@emotion/styled';
 
 const TableContainer = styled.div`
@@ -23,6 +23,7 @@ const TableHeader = styled.th`
   border-bottom: 2px solid #ddd;
   word-wrap: break-word;
   vertical-align: top;
+  font-family: 'Open Sans', sans-serif;
 `;
 
 const TableRow = styled.tr`
@@ -40,6 +41,7 @@ const TableCell = styled.td`
   border-bottom: 1px solid #ddd;
   word-wrap: break-word;
   vertical-align: top;
+  font-family: 'Open Sans', sans-serif;
 `;
 
 const PaginationContainer = styled.div`
@@ -57,6 +59,7 @@ const PageButton = styled.button`
   color: ${props => props.active ? 'white' : '#333'};
   cursor: pointer;
   border-radius: 4px;
+  font-family: 'Open Sans', sans-serif;
   
   &:hover {
     background-color: ${props => props.active ? '#0066cc' : '#f5f5f5'};
@@ -72,9 +75,10 @@ const PageButton = styled.button`
 const PageInfo = styled.span`
   color: #666;
   font-size: 0.9em;
+  font-family: 'Open Sans', sans-serif;
 `;
 
-const DataTable = ({ data, selectedState }) => {
+const DataTable = forwardRef(({ data, selectedState }, ref) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -103,14 +107,14 @@ const DataTable = ({ data, selectedState }) => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer ref={ref}>
       <h2>{data.length} Local-based Private Foundations in {selectedState}</h2>
       <StyledTable>
         <thead>
           <tr>
             <TableHeader style={{ width: "10%" }}>EIN</TableHeader>
             <TableHeader style={{ width: "20%" }}>Name</TableHeader>
-            <TableHeader style={{ width: "60%" }}>Mission</TableHeader>
+            <TableHeader style={{ width: "60%", textAlign: "left" }}>Mission</TableHeader>
             <TableHeader style={{ width: "10%" }}>Service Area</TableHeader>
           </tr>
         </thead>
@@ -119,7 +123,7 @@ const DataTable = ({ data, selectedState }) => {
             <TableRow key={index}>
               <TableCell style={{ width: "10%" }}>{foundation.EIN}</TableCell>
               <TableCell style={{ width: "20%" }}>{foundation.Name}</TableCell>
-              <TableCell style={{ width: "60%" }}>{cleanMissionText(foundation.Mission)}</TableCell>
+              <TableCell style={{ width: "60%", textAlign: "left" }}>{cleanMissionText(foundation.Mission)}</TableCell>
               <TableCell style={{ width: "10%" }}>{Array.isArray(foundation.State) ? foundation.State.join(', ') : foundation.State}</TableCell>
             </TableRow>
           ))}
@@ -159,6 +163,6 @@ const DataTable = ({ data, selectedState }) => {
       )}
     </TableContainer>
   );
-};
+});
 
 export default DataTable; 
