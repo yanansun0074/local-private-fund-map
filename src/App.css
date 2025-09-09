@@ -19,7 +19,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #4B9CD3;
   padding: 20px;
   color: white;
   margin-bottom: 30px;
@@ -49,6 +49,10 @@ main {
 
 .App-link {
   color: #61dafb;
+}
+
+a:link {
+  color: #4B9CD3; /* Blue color */
 }
 
 @keyframes App-logo-spin {
